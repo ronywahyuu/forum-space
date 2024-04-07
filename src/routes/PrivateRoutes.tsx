@@ -14,7 +14,7 @@ function PrivateRoute({
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/auth")
+      navigate("/login")
     }
   }, [navigate, isAuthenticated])
 

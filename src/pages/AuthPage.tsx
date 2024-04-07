@@ -1,11 +1,11 @@
-import Auth from "@/features/auth/Auth"
+import { Outlet } from "react-router-dom"
 
 type Props = {}
 
 const AuthPages = (props: Props) => {
   return (
-    <div>
-        <Auth/>
+    <div className="flex items-center justify-center border h-screen ">
+      <Outlet/>
     </div>
   )
 }
