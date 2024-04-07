@@ -1,5 +1,4 @@
 import Write from '@/features/write/Write'
-import React from 'react'
 
 type Props = {}
 

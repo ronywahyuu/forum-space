@@ -1,4 +1,4 @@
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -18,7 +18,6 @@ const FormSchema = z.object({
   }),
 })
 const Write: React.FC<Props> = (props) => {
-  const [value, setValue] = useState('');
   const [bold, setBold] = useState(false);
   const [italic, setItalic] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -29,9 +28,6 @@ const Write: React.FC<Props> = (props) => {
       content: "",
     },
   })
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
-  };
 
   const toggleBold = () => {
     setBold(!bold);

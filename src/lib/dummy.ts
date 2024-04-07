@@ -24,6 +24,5 @@ const threads = [
 ]
 
 
-const leaderboards = []
 
 export { threads }
