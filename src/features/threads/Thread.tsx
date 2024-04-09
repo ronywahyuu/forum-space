@@ -13,14 +13,12 @@ interface ThreadProps {
 
 const Thread = ({ threadData }: ThreadProps) => {
 
-  console.log(threadData.upVotesBy)
-
 
   return (
     <Card className="w-full rounded-xl">
       <CardHeader>
         <CardTitle className='flex items-center'>
-          <Link to="/threads/1">
+          <Link to={`/threads/${threadData.id}`}>
 
             {threadData.title}
           </Link>

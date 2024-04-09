@@ -1,14 +1,18 @@
-import { threads } from '@/lib/dummy'
 import Post from './Thread'
 import { Badge } from '@/components/ui/badge'
 import type { Thread } from '@/types/thread'
+import { useGetThreadsQuery } from './threadsApiSlice'
 
 type Props = {}
 
 const ThreadList = (props: Props) => {
-  const threadsData: Thread[] = threads
+  const {data: threads, isFetching: isFetchingThreads} = useGetThreadsQuery()
 
+  if( isFetchingThreads) return <p>Loading...</p>
 
+  const threadsData: Thread[] = threads?.data.threads || []
+    
+  console.log(threadsData)
 
   return (
     <>
