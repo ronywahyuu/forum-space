@@ -5,6 +5,7 @@ import { counterSlice } from "../features/counter/counterSlice"
 import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
 import { productsApiSlice } from "@/features/products/productSlice"
 import { threadsApiSlice } from "@/features/threads/threadsApiSlice"
+import { leaderboardApiSlice } from "@/features/leaderboard/leaderboardApiSlice"
 // import { threadsApiSlice } from "@/features/threads/threadsApiSlice"
 
 // `combineSlices` automatically combines the reducers using
@@ -14,6 +15,7 @@ const rootReducer = combineSlices(
   quotesApiSlice,
   productsApiSlice,
   threadsApiSlice,
+  leaderboardApiSlice,
 )
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
@@ -30,6 +32,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
         quotesApiSlice.middleware,
         productsApiSlice.middleware,
         threadsApiSlice.middleware,
+        leaderboardApiSlice.middleware,
       )
     },
     preloadedState,
