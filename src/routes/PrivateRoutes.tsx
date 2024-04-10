@@ -9,9 +9,7 @@ function PrivateRoute({
   children: JSX.Element
   [key: string]: any
 }) {
-  const { data: currentUser } = useGetCurrentUserQuery()
-
-  // check token in local storage
+  const { data: currentUser, isFetching } = useGetCurrentUserQuery()
 
 
   let navigate = useNavigate()
@@ -20,13 +18,13 @@ function PrivateRoute({
   let isAuthenticated = true
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && !isFetching) {
       navigate("/login")
     }
 
     return
 
-  }, [navigate, isAuthenticated, currentUser])
+  }, [navigate, isAuthenticated, currentUser, isFetching])
 
   return isAuthenticated ? children : null
 }

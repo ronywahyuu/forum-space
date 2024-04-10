@@ -8,6 +8,12 @@ interface ApiResponse<T> {
   data: T
 }
 
+interface ThreadRequest {
+  title: string
+  body: string
+  category?: string
+}
+
 export interface ThreadsApiResponse
   extends ApiResponse<{ threads: Thread[] }> {}
 
@@ -15,7 +21,9 @@ export interface ThreadDetailsApiResponse
   extends ApiResponse<{ detailThread: Thread }> {}
 
 export const threadsApiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: CONFIG.API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: CONFIG.API_URL,
+  }),
   reducerPath: "threadsApi",
   tagTypes: ["Threads"],
   endpoints: build => ({
@@ -27,7 +35,19 @@ export const threadsApiSlice = createApi({
       query: id => `threads/${id}`,
       providesTags: ["Threads"],
     }),
+    addThread: build.mutation<Thread, ThreadRequest>({
+      query: ({ body, title, category }) => {
+        const token = localStorage.getItem("token");
+        return {
+          url: "threads",
+          method: "POST",
+          body: { title, body, category },
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        };
+      },
+      invalidatesTags: ["Threads"],
+    }),
   }),
 })
 
-export const { useGetThreadsQuery, useGetThreadDetailsQuery } = threadsApiSlice
+export const { useGetThreadsQuery, useGetThreadDetailsQuery, useAddThreadMutation } = threadsApiSlice

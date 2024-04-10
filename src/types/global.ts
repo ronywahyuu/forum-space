@@ -23,6 +23,7 @@ export interface ApiResponse<T> {
 export interface AuthApiResponse extends ApiResponse<{ user: User }> {}
 export interface LoginResponse extends ApiResponse<LoginData> {}
 export interface RegisterResponse extends ApiResponse<RegisterData> {}
+export interface ThreadResponse extends ApiResponse<Thread> {}
 export interface LoginRequest {
   email: string
   password: string
