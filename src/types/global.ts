@@ -1,31 +1,44 @@
+
+
+/**
+ * Base api response type
+ */
+export interface ApiResponse<T> {
+  status: string
+  message: string
+  error?: {
+    status: number
+    data: {
+      status: string
+      message: string
+      data: any
+    }
+  }
+  data: T
+}
+
+/**
+ * Auth types and its subtypes
+ */ 
+export interface AuthApiResponse extends ApiResponse<{ user: User }> {}
+export interface LoginResponse extends ApiResponse<LoginData> {}
+export interface RegisterResponse extends ApiResponse<RegisterData> {}
+export interface LoginRequest {
+  email: string
+  password: string
+}
+
+/**
+ * User types and its subtypes
+ */
 export interface User {
   id: string
   name: string
   email: string
   avatar: string
 }
-
 export interface Owner extends User {}
-export interface ApiResponse<T> {
-  status: string
-  message: string
-  error?: {
-   status: number
-   data:{
-    status: string
-    message: string
-    data: any
-   }
-  }
-  data: T
-}
-export interface AuthApiResponse extends ApiResponse<{ user: User }> {}
-
-
-export interface LoginRequest {
-  email: string
-  password: string
-}
+// end of User types
 
 export interface Thread {
   id: string
@@ -50,10 +63,14 @@ export interface Comment {
 }
 
 
-export interface LoginResponse extends ApiResponse<LoginData> {}
-
 export interface LoginData {
   data: {
     token: string
+  }
+}
+
+export interface RegisterData {
+  data: {
+    user: User
   }
 }

@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useLoginMutation } from "./authApiSlice"
 import type { LoginResponse } from "@/types/global"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const FormSchema = z.object({
   email: z.string().email({
@@ -105,9 +105,9 @@ export default function Login() {
 
               <CardDescription className="text-center">
                 Don't have an account?{" "}
-                <a href="/register" className="underline">
+                <Link to="/register" className="underline">
                   Sign up
-                </a>
+                </Link>
               </CardDescription>
 
               <a href="/" className="text-center text-blue-500">

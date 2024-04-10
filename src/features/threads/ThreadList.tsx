@@ -2,24 +2,17 @@ import Post from './Thread'
 import { Badge } from '@/components/ui/badge'
 import type { Thread } from '@/types/thread'
 import { useGetThreadsQuery } from './threadsApiSlice'
-import { useGetAllUsersQuery, useGetCurrentUserQuery } from '../auth/authApiSlice'
 
 type Props = {}
 
 const ThreadList = (props: Props) => {
   const { data: threads, isFetching: isFetchingThreads } = useGetThreadsQuery()
-  const { data: currentUser } = useGetCurrentUserQuery()
-  const {data: allUsers} = useGetAllUsersQuery()
-  // const {isAuthenticated} = useAuth()
 
-  // console.log({isAuthenticated})
   if (isFetchingThreads) return <p>Loading...</p>
 
   const threadsData: Thread[] = threads?.data.threads || []
 
-  console.log(threadsData)
-  console.log(currentUser)
-  console.log(allUsers)
+
   return (
     <>
       <h1 className='text-3xl font-bold mb-5'>Threads</h1>

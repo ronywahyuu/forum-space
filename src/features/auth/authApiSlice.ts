@@ -1,5 +1,5 @@
 import { CONFIG } from "@/lib/config"
-import type { LoginResponse } from "@/types/global"
+import type { LoginResponse, RegisterResponse } from "@/types/global"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 interface AuthApiResponse {
@@ -18,6 +18,12 @@ interface User {
 }
 
 interface LoginRequest {
+  email: string
+  password: string
+}
+
+interface RegisterRequest {
+  name: string
   email: string
   password: string
 }
@@ -46,14 +52,6 @@ export const authApiSlice = createApi({
       query: () => "users",
       providesTags: ["Auth"],
     }),
-
-    //   query: ({ email, password }) => ({
-    //     url: "login",
-    //     method: "POST",
-    //     body: { email, password },
-    //   }),
-    //   invalidatesTags: ["Auth"],
-    // }),
     login: build.mutation<LoginResponse, LoginRequest>({
       query: ({ email, password }) => ({
         url: "login",
@@ -62,8 +60,17 @@ export const authApiSlice = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
+    register: build.mutation<RegisterResponse, RegisterRequest>({
+      query: ({ name, email, password }) => ({
+        url: "register",
+        method: "POST",
+        body: { name, email, password },
+      }),
+      invalidatesTags: ["Auth"],
+    
+    }),
   }),
 })
 
-export const { useGetCurrentUserQuery, useGetAllUsersQuery, useLoginMutation } =
+export const { useGetCurrentUserQuery, useGetAllUsersQuery, useLoginMutation, useRegisterMutation } =
   authApiSlice
