@@ -1,3 +1,4 @@
+import { useGetCurrentUserQuery } from "@/features/auth/authApiSlice"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -8,15 +9,24 @@ function PrivateRoute({
   children: JSX.Element
   [key: string]: any
 }) {
+  const { data: currentUser } = useGetCurrentUserQuery()
+
+  // check token in local storage
+
+
   let navigate = useNavigate()
 
+  // NOT USED
   let isAuthenticated = true
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!currentUser) {
       navigate("/login")
     }
-  }, [navigate, isAuthenticated])
+
+    return
+
+  }, [navigate, isAuthenticated, currentUser])
 
   return isAuthenticated ? children : null
 }

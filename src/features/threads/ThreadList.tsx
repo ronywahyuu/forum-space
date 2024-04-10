@@ -2,18 +2,24 @@ import Post from './Thread'
 import { Badge } from '@/components/ui/badge'
 import type { Thread } from '@/types/thread'
 import { useGetThreadsQuery } from './threadsApiSlice'
+import { useGetAllUsersQuery, useGetCurrentUserQuery } from '../auth/authApiSlice'
 
 type Props = {}
 
 const ThreadList = (props: Props) => {
-  const {data: threads, isFetching: isFetchingThreads} = useGetThreadsQuery()
+  const { data: threads, isFetching: isFetchingThreads } = useGetThreadsQuery()
+  const { data: currentUser } = useGetCurrentUserQuery()
+  const {data: allUsers} = useGetAllUsersQuery()
+  // const {isAuthenticated} = useAuth()
 
-  if( isFetchingThreads) return <p>Loading...</p>
+  // console.log({isAuthenticated})
+  if (isFetchingThreads) return <p>Loading...</p>
 
   const threadsData: Thread[] = threads?.data.threads || []
-    
-  console.log(threadsData)
 
+  console.log(threadsData)
+  console.log(currentUser)
+  console.log(allUsers)
   return (
     <>
       <h1 className='text-3xl font-bold mb-5'>Threads</h1>
@@ -34,8 +40,8 @@ const ThreadList = (props: Props) => {
       <ul className='space-y-2 mb-20'>
         {
           threadsData.map((thread) => (
-            <Post key={thread.id} threadData={thread}/>
-          ))        
+            <Post key={thread.id} threadData={thread} />
+          ))
         }
       </ul>
     </>

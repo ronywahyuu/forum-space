@@ -10,25 +10,25 @@ import Write from "@/features/write/Write";
 import LeaderboardPage from "@/pages/LeaderboardPage";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <HomePage />,
-        children: [
-            { path: "/", element: <ThreadList /> },
-            { path: "/leaderboard", element: <LeaderboardPage/> },
-            { path: "/write", element: <PrivateRoute><Write/></PrivateRoute> },
-            { path: "/threads/*", element: <ThreadList />},
-            { path: "/threads/:id", element: <PrivateRoute><DetailPage /></PrivateRoute>, },
-        ]
-    },
-    {
-        path: "/",
-        element: <AuthPages />,
-        children: [
-            { path: "/login", element: <Login /> },
-            { path: "/register", element: <Register /> }
-        ]
-    }
+  {
+    path: "/",
+    element: <HomePage />,
+    children: [
+      { path: "/", element: <ThreadList /> },
+      { path: "/leaderboard", element: <LeaderboardPage /> },
+      { path: "/write", element: <PrivateRoute><Write /></PrivateRoute> },
+      { path: "/threads/*", element: <ThreadList /> },
+      { path: "/threads/:id", element: <PrivateRoute><DetailPage /></PrivateRoute>, },
+    ]
+  },
+  {
+    path: "/",
+    element: <AuthPages />,
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> }
+    ]
+  }
 
 ]);
 
