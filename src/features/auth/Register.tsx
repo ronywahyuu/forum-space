@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useLoginMutation, useRegisterMutation } from "./authApiSlice"
-import type { LoginResponse, RegisterResponse } from "@/types/global"
+import {  useRegisterMutation } from "./authApiSlice"
+import type {  RegisterResponse } from "@/types/global"
 import { Link, useNavigate } from "react-router-dom"
 
 const FormSchema = z.object({
@@ -43,7 +43,6 @@ const FormSchema = z.object({
 export default function Register() {
   const [register] = useRegisterMutation()
   const navigate = useNavigate()
-  // const {addProduct} = useAddProductMutation
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

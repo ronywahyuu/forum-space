@@ -3,7 +3,6 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { counterSlice } from "../features/counter/counterSlice"
 import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
-import { productsApiSlice } from "@/features/products/productSlice"
 import { threadsApiSlice } from "@/features/threads/threadsApiSlice"
 import { leaderboardApiSlice } from "@/features/leaderboard/leaderboardApiSlice"
 import { authApiSlice } from "@/features/auth/authApiSlice"
@@ -14,7 +13,6 @@ import { authApiSlice } from "@/features/auth/authApiSlice"
 const rootReducer = combineSlices(
   counterSlice,
   quotesApiSlice,
-  productsApiSlice,
   threadsApiSlice,
   leaderboardApiSlice,
   authApiSlice,
@@ -32,7 +30,6 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
     middleware: getDefaultMiddleware => {
       return getDefaultMiddleware().concat(
         quotesApiSlice.middleware,
-        productsApiSlice.middleware,
         threadsApiSlice.middleware,
         leaderboardApiSlice.middleware,
         authApiSlice.middleware,

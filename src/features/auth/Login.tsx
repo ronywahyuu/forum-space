@@ -33,7 +33,6 @@ const FormSchema = z.object({
 export default function Login() {
   const navigate = useNavigate()
   const [login] = useLoginMutation()
-  // const {addProduct} = useAddProductMutation
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
