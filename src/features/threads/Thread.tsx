@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatTimeAgo } from '@/lib/utils'
 import type { Thread as ThreadType } from '@/types/thread'
-import { ThumbsDown, ThumbsUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useDownvoteThreadMutation, useNeutralizeThreadVoteMutation, useUpvoteThreadMutation } from './threadsApiSlice'
 import { BiSolidLike, BiLike, BiSolidDislike, BiDislike } from "react-icons/bi";
@@ -27,24 +26,15 @@ const Thread = ({ threadData }: ThreadProps) => {
 
 
   const handleUpVote = async (id: string) => {
-    // console.log('upvote', id)
-    const res = await upvoteThread({ threadId: id })
-
-    // neutralize downvote if user has downvoted the thread before
-    // if (res.data?.thread.downVotesBy.includes(currentUserId as string)) {
-    //   await neutralizeVote({ threadId: id })
-    // }
-    
-
+    await upvoteThread({ threadId: id })
   }
 
   const handleDownVote = async (id: string) => {
-    console.log('downvote', id)
-    const res = await downvoteThread({ threadId: id })
+    await downvoteThread({ threadId: id })
   }
 
   const handleNeutralizeVote = async () => {
-    const res = await neutralizeVote({ threadId: threadData.id})
+    await neutralizeVote({ threadId: threadData.id })
 
   }
 

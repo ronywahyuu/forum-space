@@ -44,7 +44,6 @@ const Write: React.FC<Props> = (props) => {
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
     const res = await addThread(data) as unknown as ThreadResponse
  
     if (res.error) {

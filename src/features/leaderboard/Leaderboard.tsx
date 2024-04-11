@@ -9,7 +9,6 @@ const Leaderboard = (props: Props) => {
   if (isFetching) return <div>Loading...</div>
 
   const leaderboards = data?.data.leaderboards
-  console.log(leaderboards)
 
   if (isSuccess) {
     return (

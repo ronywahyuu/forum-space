@@ -53,7 +53,6 @@ export default function Register() {
   })
 
   async function onSubmitRegister(data: z.infer<typeof FormSchema>) {
-    console.log(data)
     alert(data)
     const res = await register(data) as unknown as RegisterResponse
 

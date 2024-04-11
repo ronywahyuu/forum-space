@@ -6,9 +6,8 @@ import { useGetThreadsQuery } from './threadsApiSlice'
 type Props = {}
 
 const ThreadList = (props: Props) => {
-  const { data: threads, isFetching: isFetchingThreads, isLoading } = useGetThreadsQuery()
+  const { data: threads,  isLoading } = useGetThreadsQuery()
 
-  console.log('is fetching threads', isFetchingThreads)
   if (isLoading) return <p>Loading...</p>
 
   const threadsData: Thread[] = threads?.data.threads || []

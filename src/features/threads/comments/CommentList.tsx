@@ -6,7 +6,6 @@ interface CommentListProps  {
 }
 
 const CommentList = ({comments}: CommentListProps) => {
-  console.log(comments)
   return (
     <div className="mb-20 space-y-3">
       {
