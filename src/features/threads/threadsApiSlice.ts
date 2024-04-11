@@ -30,7 +30,7 @@ export const threadsApiSlice = createApi({
     /**
      * THREADS ENDPOINTS
      */
-    getThreads: build.query<ThreadsApiResponse, any>({
+    getThreads: build.query<ThreadsApiResponse, void>({
       query: () => "threads",
       providesTags: ["Threads"],
     }),
@@ -72,7 +72,7 @@ export const threadsApiSlice = createApi({
     /**
      * VOTES ENDPOINTS
      *  */
-    addVote: build.mutation({
+    upvoteThread: build.mutation({
       query: ({ threadId, vote }) => {
         const token = localStorage.getItem("token")
         return {
@@ -86,6 +86,24 @@ export const threadsApiSlice = createApi({
         { type: "Threads", id: threadId },
       ],
     }),
+
+    downvoteThread: build.mutation({
+      query: ({ threadId, vote }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/votes`,
+          method: "POST",
+          body: { vote },
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
+    // neutralizeThreadVote: build.mutation({}),
+
+
     
   }),
 })
@@ -95,4 +113,8 @@ export const {
   useGetThreadDetailsQuery,
   useAddThreadMutation,
   useAddCommentMutation,
+  useUpvoteThreadMutation,
+  useDownvoteThreadMutation,
+  // useNeutralizeThreadVoteMutation,
+
 } = threadsApiSlice

@@ -8,18 +8,32 @@ import CommentList from '@/features/threads/comments/CommentList'
 import { useGetThreadDetailsQuery } from '@/features/threads/threadsApiSlice'
 import { formatTimeAgo } from '@/lib/utils'
 import { ThumbsDown, ThumbsUp, TimerIcon } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 type Props = {}
 
 const DetailPage = (props: Props) => {
   const { id } = useParams()
-  const { data, isFetching, isSuccess } = useGetThreadDetailsQuery(id as string)
+  const { data, isFetching, isSuccess, isError } = useGetThreadDetailsQuery(id as string)
 
   if (isFetching) return <p>Loading...</p>
   const threadData = data?.data.detailThread
   const comments = threadData?.comments
 
+  if (isError) {
+    return (
+      <div className='flex flex-col gap-5 items-center justify-center text-center'>
+        <p className='text-xl font-bold'>Failed to fetch thread details. It might have been deleted or does not exist.</p>
+
+        <Link
+          to='/'
+          className=' hover:underline'
+        >
+          <Button variant='outline'>Go back to home</Button>
+        </Link>
+      </div>
+    )
+  }
 
   if (isSuccess) {
     return (
@@ -84,6 +98,8 @@ const DetailPage = (props: Props) => {
       </div>
     )
   }
+
+  return
 }
 
 export default DetailPage
