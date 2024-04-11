@@ -11,7 +11,6 @@ const BottomNav = (props: Props) => {
   const { data: currentUser } = useGetCurrentUserQuery()
   const {logout} = useAuth()
 
-  console.log(!currentUser)
   return (
     <nav className='border w-full fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900  '>
       <div className='max-w-screen-md mx-auto  px-4 sm:px-6 lg:px-8 py-5'>

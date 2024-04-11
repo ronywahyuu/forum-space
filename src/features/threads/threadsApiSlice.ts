@@ -73,35 +73,49 @@ export const threadsApiSlice = createApi({
      * VOTES ENDPOINTS
      *  */
     upvoteThread: build.mutation({
-      query: ({ threadId, vote }) => {
+      query: ({ threadId }) => {
         const token = localStorage.getItem("token")
         return {
-          url: `threads/${threadId}/votes`,
+          url: `threads/${threadId}/up-vote`,
           method: "POST",
-          body: { vote },
           headers: token ? { authorization: `Bearer ${token}` } : {},
         }
       },
-      invalidatesTags: (result, error, { threadId }) => [
-        { type: "Threads", id: threadId },
-      ],
+      // invalidatesTags: (result, error, { threadId }) => [
+      //   { type: "Threads", id: threadId },
+      // ],
+      invalidatesTags: ["Threads"]
     }),
 
     downvoteThread: build.mutation({
       query: ({ threadId, vote }) => {
         const token = localStorage.getItem("token")
         return {
-          url: `threads/${threadId}/votes`,
+          url: `threads/${threadId}/down-vote`,
           method: "POST",
           body: { vote },
           headers: token ? { authorization: `Bearer ${token}` } : {},
         }
       },
-      invalidatesTags: (result, error, { threadId }) => [
-        { type: "Threads", id: threadId },
-      ],
+      // invalidatesTags: (result, error, { threadId }) => [
+      //   { type: "Threads", id: threadId },
+      // ],
+      invalidatesTags: ["Threads"],
     }),
-    // neutralizeThreadVote: build.mutation({}),
+    neutralizeThreadVote: build.mutation({
+      query: ({ threadId }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/neutral-vote`,
+          method: "POST",
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      // invalidatesTags: (result, error, { threadId }) => [
+      //   { type: "Threads", id: threadId },
+      // ],
+      invalidatesTags: ["Threads"],
+    }),
 
 
     
@@ -115,6 +129,6 @@ export const {
   useAddCommentMutation,
   useUpvoteThreadMutation,
   useDownvoteThreadMutation,
-  // useNeutralizeThreadVoteMutation,
+  useNeutralizeThreadVoteMutation,
 
 } = threadsApiSlice
