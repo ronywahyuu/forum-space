@@ -24,6 +24,7 @@ export interface AuthApiResponse extends ApiResponse<{ user: User }> {}
 export interface LoginResponse extends ApiResponse<LoginData> {}
 export interface RegisterResponse extends ApiResponse<RegisterData> {}
 export interface ThreadResponse extends ApiResponse<Thread> {}
+export interface CommentResponse extends ApiResponse<CommentData> {}
 export interface LoginRequest {
   email: string
   password: string
@@ -73,5 +74,11 @@ export interface LoginData {
 export interface RegisterData {
   data: {
     user: User
+  }
+}
+
+export interface CommentData {
+  data: {
+    comment: Comment
   }
 }

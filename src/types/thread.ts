@@ -5,6 +5,7 @@ export interface Thread {
   category: string
   createdAt: string
   ownerId: string
+  owner: Owner
   totalComments: number
   upVotesBy: string[]
   downVotesBy: any[]

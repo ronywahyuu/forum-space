@@ -1,26 +1,25 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import type { Comment as CommentType } from "@/types/thread"
-
+import { formatTimeAgo } from "@/lib/utils"
 interface CommentProps {
   comment: CommentType
 }
 const Comment = ({ comment }: CommentProps) => {
-  // console.log(comment)
   return (
     <Card>
       <CardHeader className="">
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src={comment.owner.avatar} alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
 
           <div>
-            <span className='text-2x'>Rony</span>
+            <span className='text-2x'>{comment.owner.name}</span>
             <div className='flex items-center'>
               <span className='text-gray-500'>{
-                new Date().toLocaleDateString()
+                formatTimeAgo(comment.createdAt)
               }</span>
             </div>
           </div>
@@ -30,9 +29,7 @@ const Comment = ({ comment }: CommentProps) => {
 
       <CardContent>
         <div className='flex flex-col gap-2'>
-          <span className='font-bold'>
-            Rony
-          </span>
+         
           <div dangerouslySetInnerHTML={{ __html: comment.content }} />
 
         </div>

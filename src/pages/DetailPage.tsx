@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import CommmentForm from '@/features/threads/comments/CommentForm'
 import CommentList from '@/features/threads/comments/CommentList'
 import { useGetThreadDetailsQuery } from '@/features/threads/threadsApiSlice'
+import { formatTimeAgo } from '@/lib/utils'
 import { ThumbsDown, ThumbsUp, TimerIcon } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 
@@ -14,7 +15,6 @@ type Props = {}
 const DetailPage = (props: Props) => {
   const { id } = useParams()
   const { data, isFetching, isSuccess } = useGetThreadDetailsQuery(id as string)
-
 
   if (isFetching) return <p>Loading...</p>
   const threadData = data?.data.detailThread
@@ -33,11 +33,12 @@ const DetailPage = (props: Props) => {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className='font-medium  flex flex-col'>
-                <span className='text-2x'>Rony</span>
-                <div className='flex items-center'>
+                <span className='text-2x'>{threadData?.owner.name}</span>
+                <div className='flex items-center gap-2'>
                   <TimerIcon className='w-4 h-4 text-gray-500' />
                   <span className='text-gray-500'>{
-                    new Date().toLocaleDateString()
+                    // new Date().toLocaleDateString()
+                    formatTimeAgo(threadData?.createdAt as string)
                   }</span>
 
                 </div>
@@ -61,8 +62,8 @@ const DetailPage = (props: Props) => {
               <Button variant="outline" className='rounded-xl flex gap-2'>
                 <ThumbsUp className='w-4' />
                 <span>
-                  3
-                  {/* {threadData.upVotesBy.length} */}
+                  {/* 3 */}
+                  {threadData?.upVotesBy.length}
                 </span>
               </Button>
             </ActionTooltip>
@@ -70,15 +71,15 @@ const DetailPage = (props: Props) => {
               <Button variant="outline" className='rounded-xl flex gap-2'>
                 <ThumbsDown className='w-4' />
                 <span>
-                  3
-                  {/* {threadData.downVotesBy.length} */}
+                  {/* 3 */}
+                  {threadData?.downVotesBy.length}
                 </span>
               </Button>
             </ActionTooltip>
           </CardFooter>
         </Card>
 
-        <CommmentForm />
+        <CommmentForm commentLength={comments?.length ?? 0} />
         <CommentList comments={comments ?? []} />
       </div>
     )

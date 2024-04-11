@@ -27,27 +27,72 @@ export const threadsApiSlice = createApi({
   reducerPath: "threadsApi",
   tagTypes: ["Threads"],
   endpoints: build => ({
-    getThreads: build.query<ThreadsApiResponse, void>({
+    /**
+     * THREADS ENDPOINTS
+     */
+    getThreads: build.query<ThreadsApiResponse, any>({
       query: () => "threads",
       providesTags: ["Threads"],
     }),
     getThreadDetails: build.query<ThreadDetailsApiResponse, string>({
       query: id => `threads/${id}`,
-      providesTags: ["Threads"],
+      providesTags: (result, error, id) => [{ type: "Threads", id }],
     }),
     addThread: build.mutation<Thread, ThreadRequest>({
       query: ({ body, title, category }) => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token")
         return {
           url: "threads",
           method: "POST",
           body: { title, body, category },
           headers: token ? { authorization: `Bearer ${token}` } : {},
-        };
+        }
       },
       invalidatesTags: ["Threads"],
     }),
+
+    /**
+     * COMMENTS ENDPOINTS
+     */
+    addComment: build.mutation({
+      query: ({ threadId, content }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/comments`,
+          method: "POST",
+          body: { content },
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
+
+    /**
+     * VOTES ENDPOINTS
+     *  */
+    addVote: build.mutation({
+      query: ({ threadId, vote }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/votes`,
+          method: "POST",
+          body: { vote },
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
+    
   }),
 })
 
-export const { useGetThreadsQuery, useGetThreadDetailsQuery, useAddThreadMutation } = threadsApiSlice
+export const {
+  useGetThreadsQuery,
+  useGetThreadDetailsQuery,
+  useAddThreadMutation,
+  useAddCommentMutation,
+} = threadsApiSlice
