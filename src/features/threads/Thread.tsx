@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatTimeAgo } from '@/lib/utils'
 import type { Thread as ThreadType } from '@/types/thread'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDownvoteThreadMutation, useNeutralizeThreadVoteMutation, useUpvoteThreadMutation } from './threadsApiSlice'
 import { BiSolidLike, BiLike, BiSolidDislike, BiDislike } from "react-icons/bi";
-import { useGetCurrentUserQuery } from '../auth/authApiSlice'
+import { useGetAllUsersQuery, useGetCurrentUserQuery } from '../auth/authApiSlice'
+import { MessageCircleMore } from 'lucide-react'
 
 interface ThreadProps {
   threadData: ThreadType
@@ -18,25 +19,41 @@ const Thread = ({ threadData }: ThreadProps) => {
   const [neutralizeVote] = useNeutralizeThreadVoteMutation()
   const [downvoteThread] = useDownvoteThreadMutation()
   const { data, isFetching } = useGetCurrentUserQuery()
+  const { data: users } = useGetAllUsersQuery()
 
   const currentUserId = !isFetching ? data?.data.user.id : null
   const isUpvotedByCurrentUser = threadData.upVotesBy.includes(currentUserId as string)
   const isDownvotedByCurrentUser = threadData.downVotesBy.includes(currentUserId as string)
 
-
+  const threadOwner = users?.data.users?.find(user => user.id === threadData.ownerId)
+  const navigate = useNavigate()
 
   const handleUpVote = async (id: string) => {
+    if (!currentUserId) {
+      navigate('/login')
+      return
+    }
     await upvoteThread({ threadId: id })
   }
 
   const handleDownVote = async (id: string) => {
+    if (!currentUserId) {
+      navigate('/login')
+      return
+    }
     await downvoteThread({ threadId: id })
   }
 
   const handleNeutralizeVote = async () => {
+    if (!currentUserId) {
+      navigate('/login')
+      return
+    }
     await neutralizeVote({ threadId: threadData.id })
 
   }
+
+  // console.log('current user', data)
 
   return (
     <Card className="w-full rounded-xl">
@@ -52,7 +69,7 @@ const Thread = ({ threadData }: ThreadProps) => {
         </CardTitle>
         <CardDescription>
           <span>
-            By <span className="font-bold">{'s'}</span> {formatTimeAgo(threadData.createdAt)}
+            By <span className="font-bold">{threadOwner?.name}</span> {formatTimeAgo(threadData.createdAt)}
           </span>
         </CardDescription>
       </CardHeader>
@@ -104,15 +121,14 @@ const Thread = ({ threadData }: ThreadProps) => {
             </ActionTooltip>
           )
         }
-
-        {/* <ActionTooltip label='Dislike'>
-          <Button variant="outline" className='rounded-xl flex gap-2' onClick={() => handleDownVote(threadData.id)}>
-            <BiDislike className='w-4' />
-            <span>
-              {threadData.downVotesBy.length}
-            </span>
-          </Button>
-        </ActionTooltip> */}
+        <Button variant="outline" className='rounded-xl flex gap-2'
+          onClick={()=>navigate(`/threads/${threadData.id}`)}
+         >
+          <MessageCircleMore className='w-4' />
+          <span>
+            {threadData.totalComments}
+          </span>
+        </Button>
       </CardFooter>
     </Card>
   )

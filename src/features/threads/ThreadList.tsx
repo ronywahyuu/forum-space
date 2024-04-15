@@ -2,13 +2,13 @@ import Post from './Thread'
 import { Badge } from '@/components/ui/badge'
 import type { Thread } from '@/types/thread'
 import { useGetThreadsQuery } from './threadsApiSlice'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {}
 
 const ThreadList = (props: Props) => {
-  const { data: threads,  isLoading } = useGetThreadsQuery()
+  const { data: threads, isLoading } = useGetThreadsQuery()
 
-  if (isLoading) return <p>Loading...</p>
 
   const threadsData: Thread[] = threads?.data.threads || []
 
@@ -31,11 +31,20 @@ const ThreadList = (props: Props) => {
 
 
       <ul className='space-y-2 mb-20'>
-        {
+
+        {!isLoading ? (
           threadsData.map((thread) => (
             <Post key={thread.id} threadData={thread} />
           ))
-        }
+        ) : (
+          <>
+            <Skeleton className='w-full h-52  bg-gray-300' />
+            <Skeleton className='w-full h-52  bg-gray-300' />
+            <Skeleton className='w-full h-52  bg-gray-300' />
+            <Skeleton className='w-full h-52  bg-gray-300' />
+          </>
+
+        )}
       </ul>
     </>
   )

@@ -7,6 +7,7 @@ interface AuthApiResponse {
   message: string
   data: {
     user: User
+    users?: User[]
   }
 }
 

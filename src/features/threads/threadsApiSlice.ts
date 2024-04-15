@@ -81,6 +81,25 @@ export const threadsApiSlice = createApi({
           headers: token ? { authorization: `Bearer ${token}` } : {},
         }
       },
+      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          threadsApiSlice.util.updateQueryData('getThreads', id, (draft) => {
+            Object.assign(draft, patch)
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+
+          /**
+           * Alternatively, on failure you can invalidate the corresponding cache tags
+           * to trigger a re-fetch:
+           * dispatch(api.util.invalidateTags(['Post']))
+           */
+        }
+      
+      },
       // invalidatesTags: (result, error, { threadId }) => [
       //   { type: "Threads", id: threadId },
       // ],

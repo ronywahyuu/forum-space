@@ -1,11 +1,14 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import ActionTooltip from '@/components/ActionTooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useGetCurrentUserQuery } from '@/features/auth/authApiSlice'
 import CommmentForm from '@/features/threads/comments/CommentForm'
 import CommentList from '@/features/threads/comments/CommentList'
+import { selectCommentStatus, selectUpvoteCount } from '@/features/threads/comments/commentSlice'
 import { useDownvoteThreadMutation, useGetThreadDetailsQuery, useNeutralizeThreadVoteMutation, useUpvoteThreadMutation } from '@/features/threads/threadsApiSlice'
 import { formatTimeAgo } from '@/lib/utils'
 import { TimerIcon } from 'lucide-react'
@@ -23,12 +26,23 @@ const DetailPage = (props: Props) => {
   const { id } = useParams()
   const { data, isLoading, isSuccess, isError } = useGetThreadDetailsQuery(id as string)
 
+  // const statusComment = useAppSelector(selectCommentStatus)
+
   const currentUserId = !isLoading ? currentUser?.data.user.id : null
   const isUpvotedByCurrentUser = data?.data.detailThread.upVotesBy.includes(currentUserId as string)
   const isDownvotedByCurrentUser = data?.data.detailThread.downVotesBy.includes(currentUserId as string)
 
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) {
+    return (
+      <div className='space-y-4'>
+        <Skeleton className='w-full h-28  bg-gray-300' />
+        <Skeleton className='w-full h-52  bg-gray-300' />
+        <Skeleton className='w-full h-28  bg-gray-300' />
+
+      </div>
+    )
+  }
   const threadData = data?.data.detailThread
   const comments = threadData?.comments
 

@@ -1,15 +1,16 @@
-import { Edit, HomeIcon, LogIn, LogOut } from 'lucide-react'
+import { Edit, HomeIcon, LogIn, LogOut, UserRound } from 'lucide-react'
 import { MdOutlineLeaderboard } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import ActionTooltip from './ActionTooltip'
 import { useAuth } from '@/features/auth/useAuth'
 import { useGetCurrentUserQuery } from '@/features/auth/authApiSlice'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
 
 type Props = {}
 
 const BottomNav = (props: Props) => {
   const { data: currentUser } = useGetCurrentUserQuery()
-  const {logout} = useAuth()
+  const { logout } = useAuth()
 
   return (
     <nav className='border w-full fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900  '>
@@ -38,11 +39,24 @@ const BottomNav = (props: Props) => {
           {currentUser ? (
             <ActionTooltip label='Log out'>
 
-              <div className='flex flex-col items-center cursor-pointer' onClick={()=>logout()}>
-                <LogOut />
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className='flex flex-col items-center cursor-pointer' >
+                    <UserRound />
 
-                <span className='text-sm'>Log out</span>
-              </div>
+                    <span className='text-sm'>
+                      {currentUser?.data.user.name}
+                    </span>
+
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent >
+                  <div className='flex p-2 items-center  cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900' onClick={() => logout()}>
+                    <LogOut />
+                    <span className='text-sm'>Log Out</span>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
 
             </ActionTooltip>
