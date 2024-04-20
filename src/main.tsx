@@ -17,8 +17,10 @@ if (container) {
       <Provider store={store}>
         {/* <App /> */}
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <RouterProvider router={router} />
+          {/* <AuthProvider>
 
-          <RouterProvider router={router} />
+          </AuthProvider> */}
         </ThemeProvider>
       </Provider>
     </React.StrictMode>,

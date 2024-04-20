@@ -1,17 +1,18 @@
+import type { Comment as CommentType } from "@/types/thread"
 import Comment from "./Comment"
 
-type Props = {}
+interface CommentListProps {
+  comments: CommentType[]
+}
 
-const CommentList = (props: Props) => {
+const CommentList = ({ comments }: CommentListProps) => {
   return (
     <div className="mb-20 space-y-3">
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
-      <Comment/>
+      {
+        comments.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))
+      }
     </div>
   )
 }
