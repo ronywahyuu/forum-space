@@ -43,13 +43,12 @@ export const commentSlice = createAppSlice({
           state.status = "loading"
         },
         fulfilled: (state, action) => {
-          console.log(action.payload)
+          console.log(action.payload.upvoteCount)
           state.status = "idle"
           // state.upvoteCount += 1
           if (action.payload.status === "success") {
             state.upvoteCount += 1
             state.downvoteCount -= 1
-            // state.downvoteCount = action.payload.downvoteCount
           }
         },
         rejected: state => {
@@ -83,8 +82,8 @@ export const commentSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = "idle"
-          state.downvoteCount = action.payload.downvoteCount
-          state.upvoteCount = action.payload.upvoteCount
+          state.downvoteCount += 1
+          state.upvoteCount -= 1
         },
         rejected: state => {
           state.status = "failed"

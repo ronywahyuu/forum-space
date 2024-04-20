@@ -68,6 +68,45 @@ export const threadsApiSlice = createApi({
         { type: "Threads", id: threadId },
       ],
     }),
+    upvoteComment: build.mutation({
+      query: ({ threadId, commentId }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/comments/${commentId}/up-vote`,
+          method: "POST",
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
+    downvoteComment: build.mutation({
+      query: ({ threadId, commentId }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/comments/${commentId}/down-vote`,
+          method: "POST",
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
+    neutralizeVoteComment: build.mutation({
+      query: ({ threadId, commentId }) => {
+        const token = localStorage.getItem("token")
+        return {
+          url: `threads/${threadId}/comments/${commentId}/neutral-vote`,
+          method: "POST",
+          headers: token ? { authorization: `Bearer ${token}` } : {},
+        }
+      },
+      invalidatesTags: (result, error, { threadId }) => [
+        { type: "Threads", id: threadId },
+      ],
+    }),
 
     /**
      * VOTES ENDPOINTS
@@ -149,5 +188,7 @@ export const {
   useUpvoteThreadMutation,
   useDownvoteThreadMutation,
   useNeutralizeThreadVoteMutation,
-
+  useUpvoteCommentMutation,
+  useDownvoteCommentMutation,
+  useNeutralizeVoteCommentMutation,
 } = threadsApiSlice

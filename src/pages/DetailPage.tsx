@@ -10,7 +10,7 @@ import CommmentForm from '@/features/threads/comments/CommentForm'
 import CommentList from '@/features/threads/comments/CommentList'
 import { selectCommentStatus, selectUpvoteCount } from '@/features/threads/comments/commentSlice'
 import { useDownvoteThreadMutation, useGetThreadDetailsQuery, useNeutralizeThreadVoteMutation, useUpvoteThreadMutation } from '@/features/threads/threadsApiSlice'
-import { formatTimeAgo } from '@/lib/utils'
+import { formatTimeAgo, generateInitials } from '@/lib/utils'
 import { TimerIcon } from 'lucide-react'
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi'
 import { Link, useParams } from 'react-router-dom'
@@ -26,13 +26,13 @@ const DetailPage = (props: Props) => {
   const { id } = useParams()
   const { data, isLoading, isSuccess, isError } = useGetThreadDetailsQuery(id as string)
 
-  // const statusComment = useAppSelector(selectCommentStatus)
 
   const currentUserId = !isLoading ? currentUser?.data.user.id : null
   const isUpvotedByCurrentUser = data?.data.detailThread.upVotesBy.includes(currentUserId as string)
   const isDownvotedByCurrentUser = data?.data.detailThread.downVotesBy.includes(currentUserId as string)
 
-
+  console.log(data)
+  const owner = data?.data.detailThread.owner
   if (isLoading) {
     return (
       <div className='space-y-4'>
@@ -74,15 +74,15 @@ const DetailPage = (props: Props) => {
   }
 
   if (isSuccess) {
+    console.log(owner?.name)
     return (
       <div className='flex flex-col gap-5'>
         <Card>
           <CardHeader className=''>
             <div className='flex items-center gap-3'>
-
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={owner?.avatar} alt="user-avatar" />
+                <AvatarFallback>{generateInitials(owner?.name)}</AvatarFallback>
               </Avatar>
               <div className='font-medium  flex flex-col'>
                 <span className='text-2x'>{threadData?.owner.name}</span>
@@ -91,7 +91,6 @@ const DetailPage = (props: Props) => {
                   <span className='text-gray-500'>{
                     formatTimeAgo(threadData?.createdAt as string)
                   }</span>
-
                 </div>
               </div>
             </div>
@@ -105,7 +104,6 @@ const DetailPage = (props: Props) => {
           </CardHeader>
           <CardContent >
             <div dangerouslySetInnerHTML={{ __html: threadData?.body as string }} />
-
           </CardContent>
 
           <CardFooter className="flex gap-2">

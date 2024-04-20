@@ -29,3 +29,14 @@ export function formatTimeAgo(date: Date | string ) {
 
   return 'Just now'
 }
+
+export function generateInitials(name: string | undefined) {
+  if (!name) return ;
+ 
+  const nameArray = name.split(' ');
+  if (nameArray.length === 1) {
+    return nameArray[0].charAt(0).toUpperCase();
+  } else {
+    return (nameArray[0].charAt(0) + nameArray[1].charAt(0)).toUpperCase();
+  }
+}
