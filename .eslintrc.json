@@ -7,7 +7,13 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "project": true, "tsconfigRootDir": "./" },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint",
+    "cypress"
+  ],
+  "env": {
+    "cypress/globals": true
+  },
   "root": true,
   "ignorePatterns": ["dist"],
   "rules": {

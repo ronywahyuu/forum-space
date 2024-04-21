@@ -4,13 +4,12 @@ import { useGetLeaderboardQuery } from "./leaderboardApiSlice"
 type Props = {}
 
 const Leaderboard = (props: Props) => {
-  const { data, isFetching, isSuccess } = useGetLeaderboardQuery()
+  const { data, isLoading, isSuccess } = useGetLeaderboardQuery()
 
-
-  if (isFetching) {
+  if (isLoading) {
     return (
-      <div className='space-y-4'>
-        <Skeleton className='w-full h-full  bg-gray-300' />
+      <div className='space-y-4' aria-label="skeleton">
+        <Skeleton className='w-full h-full bg-gray-300' />
       </div>
     )
   }
@@ -19,7 +18,7 @@ const Leaderboard = (props: Props) => {
 
   if (isSuccess) {
     return (
-      <div className="  mt-8 mb-28 mx-4">
+      <div className="mt-8 mb-28 mx-4">
         <h2 className="text-2xl font-bold mb-4">Leaderboards</h2>
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <table className="w-full dark:bg-gray-700 ">
