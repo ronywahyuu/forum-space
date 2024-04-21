@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {  useRegisterMutation } from "./authApiSlice"
-import type {  RegisterResponse } from "@/types/global"
+import { useRegisterMutation } from "./authApiSlice"
+import type { RegisterResponse } from "@/types/global"
 import { Link, useNavigate } from "react-router-dom"
 
 const FormSchema = z.object({
@@ -34,10 +34,10 @@ const FormSchema = z.object({
     message: "Password must be at least 2 characters."
   })
 })
-.refine(data => data.password === data.confirmPassword, {
-  message: "Passwords must match",
-  path: [ "password"]
-})
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Password not match",
+    path: ["password"]
+  })
 
 
 export default function Register() {
@@ -61,8 +61,6 @@ export default function Register() {
     }
 
     navigate("/login")
-
-
   }
 
   return (
@@ -86,7 +84,7 @@ export default function Register() {
                     <FormDescription>
                       This is your public display name.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage className="input-alert"/>
                   </FormItem>
                 )}
               />
@@ -99,7 +97,7 @@ export default function Register() {
                       <Input placeholder="Email" {...field} />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage className="input-alert"/>
                   </FormItem>
                 )}
               />
@@ -113,7 +111,7 @@ export default function Register() {
                       <FormControl>
                         <Input placeholder="Password" type="password" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="input-alert"/>
                     </FormItem>
                   )}
                 />
@@ -125,7 +123,7 @@ export default function Register() {
                       <FormControl>
                         <Input placeholder="Confirm Password" type="password" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="input-alert" />
                     </FormItem>
                   )}
                 />
@@ -134,7 +132,13 @@ export default function Register() {
               </div>
             </CardContent>
             <CardFooter className="w-full flex flex-col gap-3">
-              <Button variant="primary" type="submit" className="w-full">
+              <Button
+                disabled={form.formState.isSubmitting || !form.formState.isValid}
+                // {form.formState.isSubmitting || !form.formState.isValid && { disabled: true }}
+                variant="primary"
+                type="submit"
+                className="w-full"
+              >
                 Sign Up
               </Button>
 

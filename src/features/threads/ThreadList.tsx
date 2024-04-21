@@ -8,10 +8,7 @@ type Props = {}
 
 const ThreadList = (props: Props) => {
   const { data: threads, isLoading } = useGetThreadsQuery()
-
-
   const threadsData: Thread[] = threads?.data.threads || []
-
 
   return (
     <>
@@ -23,15 +20,13 @@ const ThreadList = (props: Props) => {
         </span>
 
         <div className='flex gap-2 mt-4 text-base'>
-          <Badge variant='outline' >All</Badge>
-          <Badge variant='outline'>React</Badge>
-          <Badge variant='outline'>Vue</Badge>
+          <Badge variant='default' className='border-[3px]' >All</Badge>
+          <Badge variant='outline' className='border-[3px]'>React</Badge>
+          <Badge variant='outline' className='border-[3px]'>Vue</Badge>
         </div>
       </div>
 
-
       <ul className='space-y-2 mb-20'>
-
         {!isLoading ? (
           threadsData.map((thread) => (
             <Post key={thread.id} threadData={thread} />
@@ -43,7 +38,6 @@ const ThreadList = (props: Props) => {
             <Skeleton className='w-full h-52  bg-gray-300' />
             <Skeleton className='w-full h-52  bg-gray-300' />
           </>
-
         )}
       </ul>
     </>

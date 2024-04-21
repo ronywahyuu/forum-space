@@ -56,7 +56,7 @@ export default function Login() {
 
     navigate("/")
 
-    
+
   }
 
   return (
@@ -98,7 +98,11 @@ export default function Login() {
               />
             </CardContent>
             <CardFooter className="w-full flex flex-col gap-3">
-              <Button variant="primary" type="submit" className="w-full">
+              <Button
+                disabled={form.formState.isSubmitting || !form.formState.isValid}
+                variant="primary"
+                type="submit"
+                className="w-full">
                 Sign in
               </Button>
 
